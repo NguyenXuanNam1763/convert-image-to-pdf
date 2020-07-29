@@ -151,7 +151,6 @@ public class WatermarkUtils {
 
         stamper.close();
         reader.close();
-        new DatabaseHelper(mContext).insertRecord(finalOutputFile, mContext.getString(R.string.watermarked));
         return finalOutputFile;
     }
 

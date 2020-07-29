@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,34 +15,20 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 
-import android.text.Editable;
-import android.text.TextWatcher;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
+
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.github.danielnilsson9.colorpickerview.view.ColorPickerView;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Font;
+
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -409,7 +395,6 @@ public class ImageToPdfFragment extends Fragment implements
             StringUtils.getInstance().showSnackbar(mActivity, R.string.snackbar_folder_not_created);
             return;
         }
-        new DatabaseHelper(mActivity).insertRecord(path, mActivity.getString(R.string.created));
         StringUtils.getInstance().getSnackbarwithAction(mActivity, R.string.snackbar_pdfCreated)
                 .setAction(R.string.snackbar_viewAction,
                         v -> mFileUtils.openFile(mPath, FileUtils.FileType.e_PDF)).show();
@@ -464,36 +449,6 @@ public class ImageToPdfFragment extends Fragment implements
     }
 
     private void addMargins() {
-//        MaterialDialog materialDialog = new MaterialDialog.Builder(mActivity)
-//                .title(R.string.add_margins)
-//                .customView(R.layout.add_margins_dialog, false)
-//                .positiveText(R.string.ok)
-//                .negativeText(R.string.cancel)
-//                .onPositive(((dialog, which) -> {
-//                    View view = dialog.getCustomView();
-//                    EditText top = view.findViewById(R.id.topMarginEditText);
-//                    EditText bottom = view.findViewById(R.id.bottomMarginEditText);
-//                    EditText right = view.findViewById(R.id.rightMarginEditText);
-//                    EditText left = view.findViewById(R.id.leftMarginEditText);
-//                    if (top.getText().toString().isEmpty())
-//                        mMarginTop = 0;
-//                    else
-//                        mMarginTop = Integer.parseInt(top.getText().toString());
-//                    if (bottom.getText().toString().isEmpty())
-//                        mMarginBottom = 0;
-//                    else
-//                        mMarginBottom = Integer.parseInt(bottom.getText().toString());
-//                    if (right.getText().toString().isEmpty())
-//                        mMarginRight = 0;
-//                    else
-//                        mMarginRight = Integer.parseInt(right.getText().toString());
-//                    if (left.getText().toString().isEmpty())
-//                        mMarginLeft = 0;
-//                    else
-//                        mMarginLeft = Integer.parseInt(left.getText().toString());
-//                    mPdfOptions.setMargins(mMarginTop, mMarginBottom, mMarginRight, mMarginLeft);
-//                })).build();
-//        materialDialog.show();
         mPdfOptions.setMargins(50, 50, 50, 50);
     }
 
@@ -503,54 +458,6 @@ public class ImageToPdfFragment extends Fragment implements
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         mPageNumStyle = mSharedPreferences.getString (Constants.PREF_PAGE_STYLE, null);
         mChoseId = mSharedPreferences.getInt (Constants.PREF_PAGE_STYLE_ID, -1);
-
-        RelativeLayout dialogLayout = (RelativeLayout) getLayoutInflater ()
-                .inflate (R.layout.add_pgnum_dialog, null);
-
-        RadioButton rbOpt1 = dialogLayout.findViewById(R.id.page_num_opt1);
-        RadioButton rbOpt2 = dialogLayout.findViewById(R.id.page_num_opt2);
-        RadioButton rbOpt3 = dialogLayout.findViewById(R.id.page_num_opt3);
-        RadioGroup rg = dialogLayout.findViewById(R.id.radioGroup);
-        CheckBox cbDefault = dialogLayout.findViewById (R.id.set_as_default);
-
-        if (mChoseId > 0) {
-            cbDefault.setChecked (true);
-            rg.clearCheck ();
-            rg.check (mChoseId);
-        }
-//
-//        MaterialDialog materialDialog = new MaterialDialog.Builder(mActivity)
-//                .title(R.string.choose_page_number_style)
-//                .customView(dialogLayout, false)
-//                .positiveText(R.string.ok)
-//                .negativeText(R.string.cancel)
-//                .neutralText(R.string.remove_dialog)
-//                .onPositive(((dialog, which) -> {
-//
-//                    int checkedRadioButtonId = rg.getCheckedRadioButtonId ();
-//                    mChoseId = checkedRadioButtonId;
-//                    if (checkedRadioButtonId == rbOpt1.getId ()) {
-//                        mPageNumStyle = Constants.PG_NUM_STYLE_PAGE_X_OF_N;
-//                    } else if (checkedRadioButtonId == rbOpt2.getId ()) {
-//                        mPageNumStyle = Constants.PG_NUM_STYLE_X_OF_N;
-//                    } else if (checkedRadioButtonId == rbOpt3.getId ()) {
-//                        mPageNumStyle = Constants.PG_NUM_STYLE_X;
-//                    }
-//                    if (cbDefault.isChecked ()) {
-//
-//                        editor.putString(Constants.PREF_PAGE_STYLE, mPageNumStyle);
-//                        editor.putInt(Constants.PREF_PAGE_STYLE_ID, mChoseId);
-//                        editor.apply();
-//                    } else {
-//
-//                        editor.putString(Constants.PREF_PAGE_STYLE, null);
-//                        editor.putInt(Constants.PREF_PAGE_STYLE_ID, -1);
-//                        editor.apply();
-//                    }
-//                }))
-//                .onNeutral((((dialog, which) -> mPageNumStyle = null)))
-//                .build();
-//        materialDialog.show();
         mPageNumStyle=Constants.PG_NUM_STYLE_PAGE_X_OF_N;
     }
 

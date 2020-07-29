@@ -115,20 +115,6 @@ public class CreatePdf extends AsyncTask<String, String, String> {
 
             Log.v("Stage 3", "Pdf writer");
 
-//            if (mPasswordProtected) {
-//                writer.setEncryption(mPassword.getBytes(), mMasterPwd.getBytes(),
-//                        PdfWriter.ALLOW_PRINTING | PdfWriter.ALLOW_COPY,
-//                        PdfWriter.ENCRYPTION_AES_128);
-//
-//                Log.v("Stage 3.1", "Set Encryption");
-//            }
-//
-//            if (mWatermarkAdded) {
-//                WatermarkPageEvent watermarkPageEvent = new WatermarkPageEvent();
-//                watermarkPageEvent.setWatermark(mWatermark);
-//                writer.setPageEvent(watermarkPageEvent);
-//            }
-
             document.open();
 
             Log.v("Stage 4", "Document opened");
@@ -146,12 +132,6 @@ public class CreatePdf extends AsyncTask<String, String, String> {
                 image.setBorder(Rectangle.BOX);
                 image.setBorderWidth(mBorderWidth);
 
-//                Log.v("Stage 5", "Image compressed " + qualityMod);
-//
-//                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-//                Bitmap bitmap = BitmapFactory.decodeFile(mImagesUri.get(i), bmOptions);
-//
-//                Log.v("Stage 6", "Image path adding");
 
                 float pageWidth = document.getPageSize().getWidth() - (mMarginLeft + mMarginRight);
                 float pageHeight = document.getPageSize().getHeight() - (mMarginBottom + mMarginTop);

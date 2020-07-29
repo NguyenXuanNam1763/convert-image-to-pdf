@@ -88,7 +88,6 @@ public class FileUtils {
         String jobName = mContext.getString(R.string.app_name) + " Document";
         if (printManager != null) {
             printManager.print(jobName, mPrintDocumentAdapter, null);
-            new DatabaseHelper(mContext).insertRecord(file.getAbsolutePath(), mContext.getString(R.string.printed));
         }
     }
 
